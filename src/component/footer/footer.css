@@ -1,0 +1,21 @@
+.cyber-footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 25px 20px;
+    border-top: 1px solid rgba(0, 242, 255, 0.2);
+    color: #888;
+    font-size: 20px;
+    letter-spacing: 2px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+}
+
+.cyber-footer p {
+    margin: 5px 0;
+}
+
+.cyber-footer .subtitle {
+    color: #000000;
+    opacity: 0.6;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}

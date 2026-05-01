@@ -1,0 +1,228 @@
+/* 遊戲風格背景 - 深色漸層 */
+:host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* 深藍紫色漸層 */
+    padding: 20px;
+    font-family: 'Rajdhani', sans-serif; /* 使用科技感字體 */
+    color: #e0e0e0;
+}
+
+/* 主容器 - 磨砂玻璃效果 */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05); /* 極低透明度 */
+    backdrop-filter: blur(15px); /* 背景模糊 */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* 標題 - 霓虹發光 */
+h1 {
+    text-align: center;
+    color: #e4e7e7;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+    margin-bottom: 30px;
+}
+
+/* 搜尋框與按鈕 */
+/* --- 1. 外層容器：強制佔滿 100% 寬度並內容置中 --- */
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+/* --- 2. 輸入框：固定長度，不要讓它無限伸展 --- */
+.search-box input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00f2ff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    width: 500px; /* 👈 直接鎖死寬度，這樣 flex 置中才會生效 */
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* 點擊輸入框時的發光特效 (質感提升) */
+.search-box input:focus {
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+}
+
+/* --- 3. 查詢按鈕 --- */
+.search-box button {
+    background: linear-gradient(45deg, #00f2ff, #0062ff);
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+    transition: 0.3s;
+}
+
+.search-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.7);
+}
+/* 表格樣式優化 */
+
+
+th {
+    color: #00f2ff;
+    text-transform: uppercase;
+    border-bottom: 2px solid #00f2ff;
+    padding: 15px;
+}
+
+
+/* 分數顏色的霓虹效果 */
+.score-high {
+    color: #00ff88;
+    font-weight: bold;
+    text-shadow: 0 0 8px #00ff88;
+}
+
+.score-mid {
+    color: #ffcc00;
+    text-shadow: 0 0 8px #ffcc00;
+}
+
+.score-low {
+    color: #ff4444;
+    text-shadow: 0 0 8px #ff4444;
+}
+
+/* 分頁按鈕 */
+.pagination button {
+    background: transparent;
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+}
+
+.pagination button:not(:disabled):hover {
+      font: size 2px;;
+    background: #00f2ff;
+    color: #000;
+}
+/* --- 卡片網格佈局 (超強大，會自動排版) --- */
+.card-container {
+    display: grid;
+    /* 這裡設定每張卡片最少 280px，空間夠就自動並排 */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* --- 單張卡片設計 --- */
+.game-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 242, 255, 0.15);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑彈性動畫 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.game-card:hover {
+    transform: translateY(-8px);
+    border-color: #00f2ff;
+    box-shadow: 0 12px 30px rgba(0, 242, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* --- 卡片頂部 (平台) --- */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    color: #a0a0a0;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.platform-icon {
+    font-size: 1.2em;
+}
+
+/* --- 卡片中間 (標題) --- */
+.game-title {
+    color: #ffffff;
+    font-size: 1.3em;
+    margin: 0 0 25px 0;
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 卡片底部 (評分) --- */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%;
+}
+
+.score-label {
+    font-size: 0.75em;
+    color: #888;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.score-value {
+    font-size: 1.8em;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace; /* 讓數字有電子錶的感覺 */
+}
+
+/* 查無資料的狀態 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #00f2ff;
+    opacity: 0.7;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 30px;
+}
+/* --- 分頁外層置中排版 --- */
+.pagination {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center;     /* 垂直置中 */
+    gap: 20px;               /* 按鈕與文字的距離 */
+    margin-top: 40px;        /* 距離上方卡片遠一點 */
+    padding-bottom: 20px;
+}
+
+/* 順便幫分頁文字加上霓虹色彩，才不會太暗看不見 */
+.page-info {
+    color: #00f2ff;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
