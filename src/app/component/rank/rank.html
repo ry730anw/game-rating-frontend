@@ -1,0 +1,45 @@
+<div class="rank-container" style="max-width: 1200px; margin: 0 auto; color: #fff;">
+
+  @if (isLoading) {
+  <div style="text-align: center; color: #94a3b8; padding: 3rem;">
+    <p style="font-size: 1.2rem;">正在載入全平台最新排行數據...</p>
+  </div>
+  } @else {
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+
+    @for (platRank of allPlatformRanks; track platRank.platformName) {
+
+    <div class="platform-card"
+      style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+
+      <h2
+        style="font-size: 1.25rem; font-weight: bold; color: #cbd5e1; border-bottom: 1px solid #334155; padding-bottom: 12px; margin-top: 0; margin-bottom: 20px;">
+        <span style="margin-right: 8px;">{{ getPlatformIcon(platRank.platformName) }}</span>
+        {{ platRank.platformName }} 排行
+      </h2>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        @for (game of platRank.games; track game.title; let i = $index) {
+        <div [ngStyle]="getMedalStyle(i)"
+          style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 8px; transition: transform 0.2s; cursor: default;"
+          onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+
+          <span
+            style="font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+            {{ i === 0 ? '👑 ' : '' }}No.{{ i + 1 }} {{ game.title }}
+          </span>
+
+          <span style="font-family: monospace; font-size: 1.1rem; font-weight: bold;">
+            {{ game.metascore }} 分
+          </span>
+
+        </div>
+        }
+      </div>
+
+    </div>
+    }
+
+  </div>
+  }
+</div>

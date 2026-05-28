@@ -1,0 +1,129 @@
+<div class="container">
+
+  <div class="search-box"
+    style="box-sizing: border-box; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; max-width: 1000px; margin: 0 auto 30px auto;">
+
+    <div style="flex: 1; min-width: 250px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">搜尋遊戲名稱</label>
+      <input type="text" [(ngModel)]="keyword" (keyup.enter)="searchGames()" placeholder="例如: Resident Evil, Elden Ring"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none;">
+    </div>
+
+    <div style="width: 200px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">篩選平台</label>
+      <select [(ngModel)]="selectedPlatform"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+        <option value="">所有平台</option>
+       @for (platform of availablePlatforms; track platform) {
+          <option [value]="platform">{{ platform }}</option>
+        }
+      </select>
+    </div>
+
+    <button (click)="searchGames()"
+      style="box-sizing: border-box; background: #6366f1; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.3s; white-space: nowrap;">
+      🔍 查詢評價
+    </button>
+  </div>
+  @if (isLoading) {
+  <div id="loading">載入中，請稍候...</div>
+  }
+
+  @if (!isLoading && groupedGames.length > 0) {
+  <div class="grouped-card-container"
+    style="display: flex; flex-direction: column; gap: 2rem; max-width: 1000px; margin: 0 auto;">
+
+    @for (game of groupedGames; track game.title) {
+    <div class="game-group-card"
+      style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; color: #fff;">
+
+      <h2 style="margin: 0 0 20px 0; font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
+        🎯 遊戲名稱：{{ game.title }}
+      </h2>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px;">
+          <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 4px;">🏷️ 遊戲類型</span>
+          <span style="font-size: 0.95rem;">{{ game.genre }}</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px;">
+          <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 4px;">🏢 開發廠商</span>
+          <span style="font-size: 0.95rem;">{{ game.developer }}</span>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px;">
+          <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 4px;">📅 發售日期</span>
+          <span style="font-size: 0.95rem;">{{ game.releaseDate }}</span>
+        </div>
+      </div>
+
+      <div
+        style="background: rgba(15, 23, 42, 0.3); border: 1px solid rgba(51, 65, 85, 0.5); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+        <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 8px;">📝 遊戲簡介</span>
+        <p style="margin: 0; line-height: 1.6; font-size: 0.95rem; color: #cbd5e1;">
+          {{ game.summary }}
+        </p>
+      </div>
+
+      <h3
+        style="margin: 0 0 16px 0; font-size: 1.2rem; color: #818cf8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        📉 跨平台評分表現
+      </h3>
+
+      <div style="background: rgba(15, 23, 42, 0.6); border-radius: 8px; overflow: hidden;">
+        <div
+          style="display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 12px 20px; border-bottom: 1px solid rgba(51, 65, 85, 0.8); color: #94a3b8; font-size: 0.85rem;">
+          <div>發行平台</div>
+          <div style="text-align: center;">媒體評分 (METASCORE)</div>
+          <div style="text-align: center;">玩家評分 (USER SCORE)</div>
+        </div>
+
+        @for (rating of game.ratings; track rating.platformName) {
+        <div
+          style="display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 16px 20px; border-bottom: 1px solid rgba(51, 65, 85, 0.4); align-items: center;">
+          <div style="font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+            <span>{{ getPlatformIcon(rating.platformName) }}</span>
+            {{ rating.platformName }}
+          </div>
+
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: bold;" [ngClass]="getScoreClass(rating.metascore, true)">
+              {{ rating.metascore !== null ? rating.metascore + ' 分' : 'N/A' }}
+            </div>
+            <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+              由 {{ rating.mediaReviewCount | number }} 位評審
+            </div>
+          </div>
+
+          <div style="text-align: center;">
+            <div style="font-size: 1.5rem; font-weight: bold;" [ngClass]="getScoreClass(rating.userScore, false)">
+              {{ rating.userScore !== null ? rating.userScore + ' 分' : 'N/A' }}
+            </div>
+            <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+              由 {{ rating.userReviewCount | number }} 位玩家
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+    </div>
+    }
+
+  </div>
+  }
+
+  @if (hasSearched && groupedGames.length === 0 && !isLoading) {
+  <div class="empty-state">
+    <h3>找不到符合的遊戲記錄 😢</h3>
+  </div>
+  }
+
+  @if (hasSearched && totalPages > 0) {
+  <div class="pagination">
+    <button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">上一頁</button>
+    <span class="page-info">第 {{ currentPage }} / {{ totalPages }} 頁 (共 {{ totalElements }} 筆資料)</span>
+    <button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">下一頁</button>
+  </div>
+  }
+</div>
