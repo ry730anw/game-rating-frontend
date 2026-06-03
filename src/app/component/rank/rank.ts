@@ -26,8 +26,8 @@ export class Rank implements OnInit {
 
   loadAllRankings() {
     this.isLoading = true;
-    // const baseUrl = 'http://localhost:8080/api/games';
- const baseUrl = 'http://172.29.144.1:8080/api/games';
+    const baseUrl = 'http://localhost:8080/api/games';
+    // const baseUrl = 'http://1 72.18.105.150:8080/api/games';
     // 1. 先抓取所有平台名稱
     this.http.get<string[]>(`${baseUrl}/platforms`).subscribe({
       next: (platforms) => {

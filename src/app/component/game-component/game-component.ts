@@ -7,7 +7,7 @@ import { GameRatingResponse, PageResponse } from '../../model/game.model';
   templateUrl: './game-component.html',
   styleUrl: './game-component.css',
 })
-export class GameComponent implements OnInit{
+export class GameComponent implements OnInit {
   keyword: string = '';
   selectedPlatform: string = ''; // 💡 新增：用來綁定下拉選單的變數 (預設為空，代表所有平台)
   isLoading: boolean = false;
@@ -19,7 +19,10 @@ export class GameComponent implements OnInit{
   totalPages: number = 0;
   totalElements: number = 0;
   pageSize: number = 12;
-
+  sortBy: string = 'metascore'; // 💡 新增：預設用 Metascore 排序
+  selectedGenre: string = '';
+  selectedYear: string = '';
+  minScore: number | null = null;
   constructor(private http: HttpClient) { }
   ngOnInit(): void {
     this.loadPlatforms();
@@ -33,9 +36,11 @@ export class GameComponent implements OnInit{
 
     // 💡 我們的 Spring Boot Service 已經完美處理了從 1 開始的頁碼轉換
     // 所以這裡放心大膽地直接傳 1, 2, 3... 過去就好
-    // const apiUrl = `http://localhost:8080/api/games?title=${this.keyword}&platform=${this.selectedPlatform}&page=${page}&size=${this.pageSize}`;
-        const apiUrl = `http://172.29.144.1:8080/api/games?title=${this.keyword}&platform=${this.selectedPlatform}&page=${page}&size=${this.pageSize}`;
-
+    let apiUrl = `http://localhost:8080/api/games?title=${this.keyword}&platform=${this.selectedPlatform}&sortBy=${this.sortBy}&page=${page}&size=${this.pageSize}`;
+    // const apiUrl = `http://172.18.105.150:8080/api/games?title=${this.keyword}&platform=${this.selectedPlatform}&page=${page}&size=${this.pageSize}`;
+    if (this.selectedGenre) { apiUrl += `&genre=${this.selectedGenre}`; }
+    if (this.selectedYear) { apiUrl += `&year=${this.selectedYear}`; }
+    if (this.minScore !== null) { apiUrl += `&minScore=${this.minScore}`; }
     this.http.get<PageResponse<GameRatingResponse>>(apiUrl).subscribe({
       next: (data) => {
         this.games = data.content;
@@ -120,8 +125,8 @@ export class GameComponent implements OnInit{
   }
 
   loadPlatforms() {
-    // this.http.get<string[]>('http://localhost:8080/api/games/platforms').subscribe({
-        this.http.get<string[]>('http://172.29.144.1:8080/api/games/platforms').subscribe({
+    this.http.get<string[]>('http://localhost:8080/api/games/platforms').subscribe({
+      // this.http.get<string[]>('http://172.18.105.150:8080/api/games/platforms').subscribe({
 
       next: (data) => {
         this.availablePlatforms = data;

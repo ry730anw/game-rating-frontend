@@ -14,12 +14,49 @@
       <select [(ngModel)]="selectedPlatform"
         style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none; cursor: pointer;">
         <option value="">所有平台</option>
-       @for (platform of availablePlatforms; track platform) {
-          <option [value]="platform">{{ platform }}</option>
+        @for (platform of availablePlatforms; track platform) {
+        <option [value]="platform">{{ platform }}</option>
         }
       </select>
     </div>
+    <div style="width: 150px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">遊戲類型</label>
+      <select [(ngModel)]="selectedGenre"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+        <option value="">所有類型</option>
+        <option value="Action">動作 (Action)</option>
+        <option value="Role-Playing">角色扮演 (RPG)</option>
+        <option value="Shooter">射擊 (Shooter)</option>
+        <option value="Adventure">冒險 (Adventure)</option>
+        <option value="Sports">運動 (Sports)</option>
+        <option value="Strategy">策略 (Strategy)</option>
+      </select>
+    </div>
+    <div style="width: 220px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">排序依據</label>
+      <select [(ngModel)]="sortBy"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+        <option value="metascore">META SCORE排序</option>
+        <option value="userScore">USER SCORE排序</option>
+      </select>
+    </div>
+    <div style="width: 120px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">發行年份</label>
+      <input type="number" [(ngModel)]="selectedYear" placeholder="如: 2022"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none;">
+    </div>
 
+    <div style="width: 150px;">
+      <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">評分門檻</label>
+      <select [(ngModel)]="minScore"
+        style="box-sizing: border-box; width: 100%; background: #1e293b; border: 1px solid #334155; color: #fff; padding: 10px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+        <option [ngValue]="null">不限分數</option>
+        <option [ngValue]="90">90分以上 (神作)</option>
+        <option [ngValue]="80">80分以上 (佳作)</option>
+        <option [ngValue]="70">70分以上 (良作)</option>
+      </select>
+
+    </div>
     <button (click)="searchGames()"
       style="box-sizing: border-box; background: #6366f1; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.3s; white-space: nowrap;">
       🔍 查詢評價
